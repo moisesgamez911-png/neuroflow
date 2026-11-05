@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NeuroFlow AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<canvas id="net"></canvas>
+<main>
+  <h1 class="logo">Neuro<span>Flow AI</span></h1>
+  <p class="tag">Your brain needs a good rhythm too.</p>
+  <div class="rule"></div>
+
+  <div class="brainwrap">
+    <svg viewBox="-40 -10 280 150" role="img" aria-label="Brain">
+      <g>
+        <line class="ray" x1="-35" y1="65" x2="-12" y2="65"/><line class="ray" x1="-28" y1="25" x2="-10" y2="38"/><line class="ray" x1="-28" y1="105" x2="-10" y2="92"/>
+        <line class="ray" x1="235" y1="65" x2="212" y2="65"/><line class="ray" x1="228" y1="25" x2="210" y2="38"/><line class="ray" x1="228" y1="105" x2="210" y2="92"/>
+      </g>
+      <g id="h">
+        <path class="hemi" d="M97 14C80 2 56 8 50 28C34 30 24 48 32 62C22 76 32 98 50 100C54 118 80 128 97 116Z"/>
+        <path class="fold" d="M62 44C70 36 80 38 84 46"/><path class="fold" d="M46 66C56 62 66 66 68 74"/><path class="fold" d="M52 92C62 90 72 84 76 78"/><path class="fold" d="M70 108C78 104 84 98 86 92"/>
+      </g>
+      <g transform="translate(200,0) scale(-1,1)">
+        <path class="hemi" d="M97 14C80 2 56 8 50 28C34 30 24 48 32 62C22 76 32 98 50 100C54 118 80 128 97 116Z"/>
+        <path class="fold" d="M60 40C68 32 80 36 84 44"/><path class="fold" d="M44 64C54 60 66 64 68 72"/><path class="fold" d="M54 90C64 90 74 82 78 76"/><path class="fold" d="M68 106C76 102 84 96 86 90"/>
+      </g>
+    </svg>
+  </div>
+
+  <section class="grid">
+    <article class="card">
+      <div class="icon"><svg viewBox="0 0 64 64"><path d="M4 32C14 16 50 16 60 32C50 48 14 48 4 32Z"/><circle cx="32" cy="32" r="9"/><circle id="pupil" cx="32" cy="32" r="3" fill="#0a2a7a"/></svg></div>
+      <h3>Detects your focus level</h3><p>Analyzes your attention in real time to understand how your mind works.</p>
+      <button type="button" class="card-cta" data-modal="modal-focus" aria-haspopup="dialog">Explore the demo <span aria-hidden="true">&rarr;</span></button>
+    </article>
+    <article class="card">
+      <div class="icon"><svg viewBox="0 0 64 64"><g class="steam"><path d="M24 6c-3 4 3 6 0 10"/><path d="M32 6c-3 4 3 6 0 10"/><path d="M40 6c-3 4 3 6 0 10"/></g><path d="M14 26h32v8c0 9-6 15-16 15s-16-6-16-15z"/><path d="M46 29h4a5 5 0 010 10h-5"/><path d="M12 56h36"/></svg></div>
+      <h3>Gives you smart breaks</h3><p>Suggests rest at just the right moment to restore energy and clarity.</p>
+      <button type="button" class="card-cta" data-modal="modal-breaks" aria-haspopup="dialog">Plan a break <span aria-hidden="true">&rarr;</span></button>
+    </article>
+    <article class="card">
+      <div class="icon"><svg viewBox="0 0 64 64"><path d="M32 6l20 7v16c0 14-9 24-20 29C21 53 12 43 12 29V13z"/><g class="lock"><rect x="24" y="30" width="16" height="13" rx="2" fill="#0a2a7a"/><path d="M27 30v-4a5 5 0 0110 0v4"/></g></svg></div>
+      <h3>Your video stays private</h3><p>Processing is secure and confidential: your image never leaves your control.</p>
+      <button type="button" class="card-cta" data-modal="modal-privacy" aria-haspopup="dialog">How privacy works <span aria-hidden="true">&rarr;</span></button>
+    </article>
+  </section>
+
+  <div class="meter" aria-label="Simulated focus meter">
+    <label><span>Focus level</span><span id="pct">50%</span></label>
+    <div class="bar"><i id="fill"></i></div>
+    <div class="state" id="state">Calibrating…</div>
+  </div>
+</main>
+<dialog class="panel" id="modal-focus" aria-labelledby="t-focus">
+  <button type="button" class="panel-close" aria-label="Close">&times;</button>
+  <h2 id="t-focus">Detects your focus level</h2>
+  <p class="lead">NeuroFlow AI analyzes your attention in real time to understand how your mind works.</p>
+  <div class="readout"><b id="demo-label"></b><span id="demo-val"></span></div>
+  <div class="bar"><i id="demo-bar"></i></div>
+  <input id="demo-range" type="range" min="0" max="100" value="62" aria-label="Focus level preview">
+  <div class="range-ends"><span>Distracted</span><span>Peak flow</span></div>
+  <h4>How it works</h4>
+  <ol><li>Your attention signal is read continuously while you work.</li><li>It is translated into a focus level from 0 to 100%.</li><li>Changes in that level trigger gentle suggestions, such as a break.</li></ol>
+  <p class="note">This preview is interactive but simulated: drag the slider to see how each level is labeled. It does not access your camera.</p>
+</dialog>
+
+<dialog class="panel" id="modal-breaks" aria-labelledby="t-breaks">
+  <button type="button" class="panel-close" aria-label="Close">&times;</button>
+  <h2 id="t-breaks">Gives you smart breaks</h2>
+  <p class="lead">Suggests rest at just the right moment to restore energy and clarity.</p>
+  <h4>How long did you focus?</h4>
+  <div class="chips">
+    <button type="button" class="chip" data-break="5" aria-pressed="true">25 min &rarr; 5 min break</button>
+    <button type="button" class="chip" data-break="10" aria-pressed="false">50 min &rarr; 10 min break</button>
+    <button type="button" class="chip" data-break="20" aria-pressed="false">90 min &rarr; 20 min break</button>
+  </div>
+  <div class="timer" id="timer" role="timer" aria-live="off">05:00</div>
+  <div class="timer-label" id="timer-msg" aria-live="polite">Ready for a 5-minute break.</div>
+  <div class="actions"><button type="button" class="btn" id="timer-go">Start break</button><button type="button" class="btn ghost" id="timer-reset">Reset</button></div>
+</dialog>
+
+<dialog class="panel" id="modal-privacy" aria-labelledby="t-privacy">
+  <button type="button" class="panel-close" aria-label="Close">&times;</button>
+  <h2 id="t-privacy">Your video stays private</h2>
+  <p class="lead">Processing is secure and confidential: your image never leaves your control.</p>
+  <details open><summary>What is analyzed</summary><p>Only the signals needed to estimate your attention level. Your focus score is what drives suggestions.</p></details>
+  <details><summary>Where your video goes</summary><p>Your image stays under your control. It is not shared with third parties.</p></details>
+  <details><summary>Your control</summary><p>You decide when analysis starts and stops, so you can pause it at any time.</p></details>
+</dialog>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
