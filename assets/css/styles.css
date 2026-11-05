@@ -1,0 +1,98 @@
+/* NeuroFlow AI - styles. Original design preserved; modal styles appended at the bottom. */
+:root{--bg1:#04123f;--bg2:#0a2a8a;--accent:#6fd3ff;--accent2:#1d6fd6;--text:#f4f8ff;--muted:#a9c4ee;--card:rgba(255,255,255,.06);--line:rgba(111,211,255,.25);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box;margin:0}
+body{background:radial-gradient(ellipse at 50% 0%,var(--bg2),var(--bg1) 70%) fixed;color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+canvas#net{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:48px 24px 72px;text-align:center}
+.logo{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(2.6rem,8vw,4.8rem);letter-spacing:.01em}
+.logo span{background:linear-gradient(90deg,var(--accent),#bdeaff,var(--accent));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+.tag{font-family:'Playfair Display',Georgia,serif;font-weight:500;font-size:clamp(1.2rem,3.4vw,2rem);margin-top:14px;color:var(--text);opacity:0;animation:up 1s .3s forwards}
+.rule{width:80px;height:2px;margin:26px auto;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+.brainwrap{position:relative;width:min(340px,70vw);margin:10px auto 40px;animation:float 6s ease-in-out infinite}
+.brainwrap::before{content:"";position:absolute;inset:-15%;background:radial-gradient(circle,rgba(111,211,255,.35),transparent 65%);animation:pulse 3s ease-in-out infinite;border-radius:50%}
+.brainwrap svg{position:relative;width:100%;height:auto;overflow:visible}
+.hemi{fill:#1668c9;stroke:#fff;stroke-width:5;stroke-linejoin:round}
+.fold{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-dasharray:60;animation:fold 3.5s ease-in-out infinite}
+.fold:nth-of-type(2n){animation-delay:.8s}.fold:nth-of-type(3n){animation-delay:1.6s}
+.ray{stroke:var(--accent);stroke-width:5;stroke-linecap:round;animation:ray 2s ease-in-out infinite}
+.ray:nth-of-type(2n){animation-delay:.4s}.ray:nth-of-type(3n){animation-delay:.8s}
+@keyframes fold{0%,100%{stroke-dashoffset:60;opacity:.4}50%{stroke-dashoffset:0;opacity:1}}
+@keyframes ray{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(.9);opacity:.6}50%{transform:scale(1.1);opacity:1}}
+@keyframes float{50%{transform:translateY(-12px)}}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:34px 22px 26px;backdrop-filter:blur(8px);transition:transform .25s,border-color .25s,box-shadow .25s;opacity:0;transform:translateY(30px)}
+.card.in{opacity:1;transform:translateY(0);transition:opacity .8s,transform .8s,border-color .25s,box-shadow .25s}
+.card:hover,.card:focus-within{border-color:var(--accent);box-shadow:0 18px 50px rgba(0,10,60,.5),0 0 30px rgba(111,211,255,.18)}
+.icon{width:104px;height:104px;border-radius:50%;margin:0 auto 22px;background:#7ad8ff;display:grid;place-items:center;position:relative}
+.icon::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:1px solid var(--accent);animation:ring 2.6s ease-out infinite}
+@keyframes ring{from{transform:scale(.9);opacity:.8}to{transform:scale(1.35);opacity:0}}
+.icon svg{width:58px;height:58px;stroke:#0a2a7a;fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-weight:600;font-size:1.15rem;line-height:1.35}
+.card p{color:var(--muted);font-weight:300;font-size:.92rem;margin-top:10px;line-height:1.5}
+#pupil{transition:transform .08s}
+.steam path{stroke-dasharray:14;animation:steam 2.4s ease-in-out infinite}
+.steam path:nth-child(2){animation-delay:.5s}.steam path:nth-child(3){animation-delay:1s}
+@keyframes steam{0%{stroke-dashoffset:14;opacity:0}50%{opacity:1}100%{stroke-dashoffset:-14;opacity:0}}
+.lock{transform-origin:50% 60%;animation:lock 4s ease-in-out infinite}
+@keyframes lock{0%,80%,100%{transform:scale(1)}90%{transform:scale(1.15)}}
+.meter{margin:56px auto 0;max-width:460px;text-align:left}
+.meter label{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.bar{height:6px;border-radius:6px;background:rgba(255,255,255,.12);margin-top:10px;overflow:hidden}
+.bar i{display:block;height:100%;width:50%;border-radius:6px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width 1.4s cubic-bezier(.4,0,.2,1)}
+.state{margin-top:12px;font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;text-align:center;min-height:1.6em}
+
+/* ---- Card call-to-action (stretched button makes the whole card clickable) ---- */
+.card-cta{margin-top:18px;background:none;border:0;color:var(--accent);font:600 .85rem Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;padding:6px 2px}
+.card-cta::before{content:"";position:absolute;inset:0;border-radius:20px}
+.card-cta span{display:inline-block;transition:transform .25s}
+.card:hover .card-cta span{transform:translateX(4px)}
+.card:has(.card-cta:active){transform:scale(.985)}
+.card-cta:focus-visible{outline:none}
+.card-cta:focus-visible::before{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ---- Modals ---- */
+dialog.panel{margin:auto;width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;padding:34px 30px 30px;color:var(--text);text-align:left;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#0b2470,#071a54);box-shadow:0 30px 80px rgba(0,8,50,.65)}
+dialog.panel::backdrop{background:rgba(2,10,40,.72);backdrop-filter:blur(4px)}
+dialog.panel[open]{animation:pop .28s cubic-bezier(.2,.8,.2,1)}
+dialog.panel[open]::backdrop{animation:fade .28s}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}}
+.panel-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--text);font-size:1.3rem;line-height:1;cursor:pointer;transition:background .2s,border-color .2s}
+.panel-close:hover{background:rgba(255,255,255,.1);border-color:var(--accent)}
+.panel-close:focus-visible,.btn:focus-visible,.chip:focus-visible,.panel summary:focus-visible,.panel input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.panel h2{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.6rem;padding-right:28px}
+.panel .lead{color:var(--muted);font-weight:300;line-height:1.55;margin:8px 0 22px}
+.panel h4{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:24px 0 10px;font-weight:600}
+.panel ol,.panel ul{padding-left:20px;color:var(--muted);font-weight:300;line-height:1.6;font-size:.93rem}
+.panel li+li{margin-top:6px}
+.note{margin-top:20px;padding:10px 14px;border-left:2px solid var(--accent);background:rgba(111,211,255,.07);border-radius:0 8px 8px 0;color:var(--muted);font-size:.82rem;line-height:1.5}
+.readout{display:flex;justify-content:space-between;align-items:baseline}
+.readout b{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:500}
+.readout span{font-size:1.6rem;font-weight:600}
+.panel input[type=range]{width:100%;margin:14px 0 4px;accent-color:var(--accent)}
+.range-ends{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{flex:1 1 120px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--text);font:400 .9rem Inter,sans-serif;cursor:pointer;transition:border-color .2s,background .2s}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed=true]{border-color:var(--accent);background:rgba(111,211,255,.16)}
+.timer{font-family:'Playfair Display',Georgia,serif;font-size:3.4rem;text-align:center;margin:22px 0 6px;font-variant-numeric:tabular-nums}
+.timer-label{text-align:center;color:var(--muted);font-size:.88rem;min-height:1.4em}
+.actions{display:flex;gap:10px;justify-content:center;margin-top:18px}
+.btn{padding:10px 22px;border-radius:999px;border:1px solid var(--accent);background:var(--accent);color:#04123f;font:600 .9rem Inter,sans-serif;cursor:pointer;transition:transform .15s,background .2s}
+.btn:hover{background:#9be3ff}.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--accent);background:rgba(255,255,255,.06)}
+.panel details{border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.panel details+details{margin-top:10px}
+.panel summary{padding:14px 16px;cursor:pointer;font-weight:600;font-size:.95rem;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.panel summary::-webkit-details-marker{display:none}
+.panel summary::after{content:"+";color:var(--accent);font-size:1.2rem;transition:transform .25s}
+.panel details[open] summary::after{transform:rotate(45deg)}
+.panel details p{padding:0 16px 14px;color:var(--muted);font-weight:300;font-size:.9rem;line-height:1.55}
+@media (max-width:480px){dialog.panel{padding:30px 20px 22px}.timer{font-size:2.8rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.card{opacity:1;transform:none}.tag{opacity:1}}
